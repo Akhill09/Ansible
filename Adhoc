@@ -1,0 +1,51 @@
+run ansible(By defauly module name will command command) 
+ansible all -m shell -a "telnet relay.edu.in 25"
+ansible all -a "hostname" -f 1 :  similar to : ansible all -m command -a "hostname" -f 1 (-f 1 will run commands sequentially)
+ansible all -m command -a "hostname" -k -f 1   : -f 1 use for serially wise result as in inventory
+ansible all -b -m service -a 'name=ntpd state=started enabled=yes'  : For enable service
+ansible all -b -m yum -a 'name=ntp state=present' : For installation
+ansible DB -m shell -a "/usr/bin/mysql -uroot -password -e'show databases;'" -k -f 1
+ansible app -m copy -a "src=/etc/hosts dest=/tmp/hosts" : for copy
+ansible app -m file -a "dest=/home/devopsideas/a.txt mode=600" : change mode 
+Link to search module : ansible-doc <module_name>
+ansible-doc -l : list all modules
+pass ‘-K’ flag to prompt for sudo password to execute commands requiring sudo access
+ansible all -m ping
+ansible app -s -a "service ntpd restart" --limit 192.168.33.20  : service only in the affected server using –limit option
+******************************************
+COPY : 
+ansible DB -m copy -a 'src=/home/docker/ dest=/root/ : sopy all file from host docker dir to remote root dir
+
+ansible DB -m copy -a 'src=run.sh dest=/root backup=yes' : backup should be yes ;src=source managaging node i.e.host machine or ansible machine;dest = destination in remote node i.e.controlling node
+ansible DB -m copy -a 'src=run.sh dest=/root remote_src=yes' : copy remote machine to remote machine
+ansible DB -m copy -a 'content="HELLO WORD" dest=/root/krnetwork' : create file krnetwork and copy the contrent
+
+*****************************************
+Backup(REVERSE OF COPY):
+ansible DB -m fetch -a 'src=remote location_file_name dest=local_folder_name'
+
+*****************************************
+SHELL module: run script over the controlling node
+(user sh if not have permission to sh file)
+****************************************
+FILE module
+ansible DB -m file -a 'path=/home/script/dbbackup.sh mode=0755' -f 1
+mkdir touch rm chmod chown chgrp chcon ln 
+****************************************
+LINEINFILE module
+append add delete the word 
+
+ansible DB -m lineinfile -a 'line="HELLO" dest=/etc/abc.conf insertafter=BOF backup=yes': it also take backup before edit
+
+Replace the line
+
+Run script from host machine
+script module
+ansible rancher -m script -a "abc.script"
+
+***************************************
+REPLACE MODULE
+setup module : give all system related information
+for find all facts : ansible all -m setup
+ansible others -m setup -a 'filter=ansible_eth0*'
+stat mode : give all file informaton uid gid time inode creation time etc
