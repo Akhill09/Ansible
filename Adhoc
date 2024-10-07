@@ -1,5 +1,5 @@
 run ansible(By defauly module name will command command) 
-ansible all -m shell -a "telnet relay.edu.in 25"
+ansible all -m shell -a "telnet remotenode 25"
 ansible all -a "hostname" -f 1 :  similar to : ansible all -m command -a "hostname" -f 1 (-f 1 will run commands sequentially)
 ansible all -m command -a "hostname" -k -f 1   : -f 1 use for serially wise result as in inventory
 ansible all -b -m service -a 'name=ntpd state=started enabled=yes'  : For enable service
